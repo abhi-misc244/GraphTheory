@@ -15,6 +15,7 @@ class GraphInterface(Widget):
 
     global edge_matrix
     edge_matrix = []
+    'testing'
 
     global node_matrix
     node_matrix = []
