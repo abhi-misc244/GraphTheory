@@ -22,20 +22,30 @@ Edges are created by selecting two nodes by double click. Nodes move by drag and
 This is the main class that refers to other classes such as GraphNode and GraphEdge.
 '''
 class GraphInterface(Widget):
-    #Global variable that tracks all edges
-    global edge_matrix
-    edge_matrix = []
+    def __init__(self, **kwargs):
+        super(GraphInterface, self).__init__(**kwargs)
 
-    #Global variable that tracks all nodes
-    global node_matrix
-    node_matrix = []
+        #Global variable that tracks all edges
+        global edge_matrix
+        edge_matrix = []
 
+        #Global variable that tracks all nodes
+        global node_matrix
+        node_matrix = []
+
+        self.graph = Graph()
 
     def createNode(self, instance):
         global node_matrix
 
         '''Creating a GraphNode Class.'''
         node = GraphNode(pos = (500,500))
+
+
+
+
+
+
 
         '''Creating a Node Matrix. Will use this matrix in APP Class for future calculations'''
         node_matrix.append(node)
@@ -53,6 +63,8 @@ class GraphInterface(Widget):
 
         '''Getting reference to the global node_matrix for tracking all nodes'''
         global node_matrix
+        global edge_matrix
+
 
         '''Setting initial values of Node1 and Node2 to None. Not sure if required.
         To be investigated'''
@@ -72,13 +84,24 @@ class GraphInterface(Widget):
         self.add_widget(c)
 
         #Future - for integration with graph class
-        #self.graph.add_edge(edge)
-        #self.edge_matrix.append(c)
-        #print self.graph
+
+        edge_matrix.append(c)
+
+
+        print node_matrix
+        print 'node matrix length is ----> ', len(node_matrix)
+        print 'edge matrix length is ----> ', len(edge_matrix)
+
+        #c = None
+        '''node1 = None
+        node2 = None'''
+
+        self.graph.add_edge([edge_matrix[-1].node1,edge_matrix[-1].node2])
+
+        print self.graph
 
 class GraphApp(App):
     '''Generic Kivy Application'''
-
     def build(self):
 
         '''Creating an instance of GraphInterface. This is the main class where all other class
@@ -169,7 +192,7 @@ class GraphNode(Widget):
         elif self.collide_point(*touch.pos):
             '''For dragging the node to new position. Grab is a kivy function'''
             touch.grab(self)
-            print 'grabed item'
+            #print 'grabed item'
 
     def on_touch_move(self, touch):
         '''For dragging the node to new position. Grab is a kivy function'''
@@ -180,7 +203,7 @@ class GraphNode(Widget):
     def on_touch_up(self, touch):
         '''For dragging the node to new position. Grab is a kivy function'''
         if touch.grab_current is self:
-            print "ungrabed a button"
+            #print "ungrabed a button"
             touch.ungrab(self)
 
 
