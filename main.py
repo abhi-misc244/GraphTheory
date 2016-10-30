@@ -184,14 +184,12 @@ class GraphNode(Widget):
             print 'triple tap happended'
             box = BoxLayout(orientation='vertical')
 
-
             sub_box1 = BoxLayout(orientation='horizontal')
             sub_box1.add_widget(Label(text='Name'))
-            self.textinput = TextInput(text = 'Sample Node', multiline = False)
+            self.textinput = TextInput(text = self.text, multiline = False)
             sub_box1.add_widget(self.textinput)
 
             box.add_widget(sub_box1)
-
 
             save_settings_b = Button(text = 'Save')
             box.add_widget(save_settings_b)
@@ -201,8 +199,9 @@ class GraphNode(Widget):
 
             self.update_object()
 
-            '''Colour changing effect when a node is selected'''
+
         elif self.collide_point(*touch.pos) and touch.is_double_tap:
+            '''Colour changing effect when a node is selected'''
             self.selected = not self.selected
             if self.selected:
                 with self.canvas:
