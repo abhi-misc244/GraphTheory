@@ -137,45 +137,18 @@ class GraphApp(App):
 
 class GraphNode(Widget):
     '''The Node creating Class'''
+    r = NumericProperty(1)
 
     def __init__(self, **kwargs):
         super(GraphNode, self).__init__(**kwargs)
-
-        '''This creates a circle at specified position initally. The node can then be dragged to
-        different position. '''
-        with self.canvas:
-            Color(1,1,1)
-            self.object = Ellipse(pos=(500,500))
-
-        '''Creating a label for the node represented by ellipse. Inital text will be New Node.
-        Once its dragged from the original position, its name changes based on when its created'''
-        self.l = Label(text='New Node', color=[1,0,1,1], size=(200,200),pos=self.pos)
-        self.add_widget(self.l)
-        self.text = "New Node"
-
-        '''Any change to the position of the node will trigger update_object function'''
-        self.bind(pos=self.update_object)
-
-        '''This variable is used to get connection points of the edges'''
         self.selected = 0
 
 
-    def update_object(self, *args):
-        '''Ellipse position is set as widget position'''
-        self.object.pos = self.pos
 
-        '''The lable position is set as widget position'''
-        self.l.pos = self.pos
-        self.l.text = self.text
-
-        '''Had to do this as label kept dissapearing whenever canvas was cleared.
-        Not sure why this was happening. to be investigated'''
-        self.remove_widget(self.l)
-        self.add_widget(self.l)
 
     def save_settings(self, instance):
-        self.text = self.textinput.text
-        self.update_object()
+        self.ids.node_label.text = self.textinput.text
+
         self.popup.dismiss()
 
 
@@ -197,24 +170,16 @@ class GraphNode(Widget):
             self.popup.open()
             save_settings_b.bind(on_press=self.save_settings)
 
-            self.update_object()
+
 
 
         elif self.collide_point(*touch.pos) and touch.is_double_tap:
             '''Colour changing effect when a node is selected'''
             self.selected = not self.selected
             if self.selected:
-                with self.canvas:
-                    self.canvas.clear()
-                    Color(1,0,1)
-                    self.object = Ellipse(pos=(self.pos))
-                    self.update_object()
+                self.r = 0
             elif not self.selected:
-                with self.canvas:
-                    self.canvas.clear()
-                    Color(1,1,1)
-                    self.object = Ellipse(pos=(self.pos))
-                    self.update_object()
+                self.r = 1
 
         elif self.collide_point(*touch.pos):
             '''For dragging the node to new position. Grab is a kivy function'''

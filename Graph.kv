@@ -1,3 +1,15 @@
- <GraphNode>:
-    size: 50, 50
-    
+<GraphNode>
+    size: 50,50
+    canvas:
+        Color:
+            rgb: (self.r,1,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        id: node_label
+        text: 'New Node'
+        pos: root.pos
+        font_size: 20
+        color: 1,0,0,1
